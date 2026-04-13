@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Request — Dreamweave</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #1A1530;
+      --deep:   #120E2A;
+      --cave:   #1E1840;
+      --amber:  #FFB830;
+      --mist:   #8BB4D4;
+      --soft:   #F5F0FF;
+      --border: rgba(255,255,255,0.08);
+      --glass:  rgba(255,255,255,0.05);
+      --radius: 14px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--deep);
+      color: var(--soft);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: rgba(18,14,42,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-logo { color: var(--amber); font-weight: 800; font-size: 1.1rem; text-decoration: none; }
+    .nav-back  { color: var(--mist); font-size: 0.85rem; text-decoration: none; }
+    .nav-back:hover { color: var(--amber); }
+
+    .page {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 56px 24px 96px;
+    }
+
+    .doc-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 32px;
+      margin-bottom: 48px;
+    }
+
+    .doc-header h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--amber);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .doc-header p { color: var(--mist); font-size: 0.92rem; }
+
+    .info-box {
+      background: rgba(255,184,48,0.07);
+      border: 1px solid rgba(255,184,48,0.2);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 36px;
+      font-size: 0.88rem;
+      color: rgba(245,240,255,0.8);
+      line-height: 1.65;
+    }
+
+    .info-box strong { color: var(--amber); }
+
+    .form-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px 32px;
+    }
+
+    .field { margin-bottom: 22px; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--mist);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--soft);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color .2s;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(255,184,48,0.5);
+    }
+
+    select option { background: var(--cave); color: var(--soft); }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    .request-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .request-type {
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .request-type:hover {
+      border-color: rgba(255,184,48,0.3);
+      background: rgba(255,184,48,0.05);
+    }
+
+    .request-type input[type="radio"] {
+      width: auto;
+      margin-top: 3px;
+      accent-color: var(--amber);
+      flex-shrink: 0;
+    }
+
+    .request-type-label { cursor: pointer; }
+    .request-type-label strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--soft);
+      margin-bottom: 2px;
+    }
+    .request-type-label span {
+      font-size: 0.78rem;
+      color: var(--mist);
+    }
+
+    .request-type.selected {
+      border-color: var(--amber);
+      background: rgba(255,184,48,0.08);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--amber);
+      color: var(--ink);
+      border: none;
+      border-radius: 30px;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background .2s, transform .15s;
+    }
+
+    .submit-btn:hover { background: #ffd060; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Success state */
+    .success-card {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+      background: var(--glass);
+      border: 1px solid rgba(255,184,48,0.2);
+      border-radius: 18px;
+    }
+
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+
+    .success-card h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--amber);
+      margin-bottom: 12px;
+    }
+
+    .success-card p { color: var(--mist); font-size: 0.92rem; }
+
+    .note {
+      margin-top: 24px;
+      font-size: 0.82rem;
+      color: rgba(245,240,255,0.4);
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+    }
+
+    footer a { color: var(--mist); text-decoration: none; }
+
+    @media (max-width: 480px) {
+      .request-types { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">✦ Dreamweave</a>
+  <a href="/privacy-policy.html" class="nav-back">← Privacy Policy</a>
+</nav>
+
+<div class="page">
+
+  <div class="doc-header">
+    <h1>Data Request</h1>
+    <p>Exercise your privacy rights under GDPR, CCPA, and applicable privacy laws.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>Your rights:</strong> You may request access to, correction of, deletion of, or a portable export of your personal data at any time.
+    We will respond to your request within <strong>30 days</strong>. For account deletion, all your data is permanently removed from our systems.
+  </div>
+
+  <!-- Form -->
+  <div class="form-card" id="formCard">
+    <form id="dsarForm" novalidate>
+
+      <div class="field">
+        <label>Request type</label>
+        <div class="request-types">
+          <div class="request-type" id="rt-access">
+            <input type="radio" name="requestType" id="type-access" value="Access" required />
+            <label class="request-type-label" for="type-access">
+              <strong>Access my data</strong>
+              <span>Get a copy of what we hold about you</span>
+            </label>
+          </div>
+          <div class="request-type" id="rt-delete">
+            <input type="radio" name="requestType" id="type-delete" value="Deletion" />
+            <label class="request-type-label" for="type-delete">
+              <strong>Delete my data</strong>
+              <span>Permanently remove your account and all data</span>
+            </label>
+          </div>
+          <div class="request-type" id="rt-correct">
+            <input type="radio" name="requestType" id="type-correct" value="Correction" />
+            <label class="request-type-label" for="type-correct">
+              <strong>Correct my data</strong>
+              <span>Fix inaccurate personal information</span>
+            </label>
+          </div>
+          <div class="request-type" id="rt-export">
+            <input type="radio" name="requestType" id="type-export" value="Export" />
+            <label class="request-type-label" for="type-export">
+              <strong>Export my data</strong>
+              <span>Receive a portable copy of your data</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Your name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email address used for your account</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="field">
+        <label for="details">Additional details <span style="font-weight:400;text-transform:none;color:rgba(139,180,212,0.6)">(optional)</span></label>
+        <textarea id="details" name="details" placeholder="Any specific information to help us process your request..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
+
+    </form>
+  </div>
+
+  <!-- Success -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✦</div>
+    <h2>Request received</h2>
+    <p>We've sent a confirmation to your email address.<br>We'll respond within 30 days.</p>
+  </div>
+
+  <p class="note">Questions? Contact us at <a href="mailto:contact@ultimatex.ai" style="color:var(--mist)">contact@ultimatex.ai</a></p>
+
+</div>
+
+<footer>
+  <p>© 2026 Dreamweave · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms-of-use.html">Terms of Use</a></p>
+</footer>
+
+<script>
+  // Highlight selected request type card
+  document.querySelectorAll('input[name="requestType"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.request-type').forEach(c => c.classList.remove('selected'));
+      radio.closest('.request-type').classList.add('selected');
+    });
+  });
+
+  // Form submission — opens pre-filled email to your inbox
+  document.getElementById('dsarForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const type    = document.querySelector('input[name="requestType"]:checked')?.value;
+    const name    = document.getElementById('fullName').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const details = document.getElementById('details').value.trim();
+
+    if (!type || !name || !email) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const subject = encodeURIComponent(`Dreamweave Data Request — ${type}`);
+    const body = encodeURIComponent(
+      `Data Request Type: ${type}\n` +
+      `Name: ${name}\n` +
+      `Account Email: ${email}\n` +
+      (details ? `\nAdditional Details:\n${details}` : '')
+    );
+
+    // Open user's email client with pre-filled request
+    window.location.href = `mailto:contact@ultimatex.ai?subject=${subject}&body=${body}`;
+
+    // Show success card
+    setTimeout(() => {
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('successCard').style.display = 'block';
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
