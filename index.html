@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dreambean — AI Bedtime Stories for Kids</title>
-  <link rel="mask-icon" href="/dreambean-logo.svg" color="#009C3E">
+  <link rel="icon" href="/assets/dreambean-castle.svg" type="image/svg+xml" />
+  <link rel="shortcut icon" href="/assets/dreambean-castle.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/dreambean-castle.svg" />
+  <link rel="mask-icon" href="/assets/dreambean-castle.svg" color="#FFB830" />
   <style>
     /* ── Reset & base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -73,10 +76,20 @@
     }
 
     .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       font-size: 1.35rem;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: var(--amber);
+    }
+
+    .nav-logo-icon {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex: 0 0 auto;
     }
 
     .nav-links {
@@ -760,7 +773,10 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <div class="nav-logo">✦ Dreambean</div>
+    <div class="nav-logo">
+      <img src="/assets/dreambean-castle.svg" alt="" class="nav-logo-icon" width="34" height="34">
+      <span>Dreambean</span>
+    </div>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#ages">Age Groups</a></li>
@@ -1050,8 +1066,8 @@
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="/privacy-policy">Privacy Policy</a></li>
-          <li><a href="/terms-of-use">Terms of Use</a></li>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms-of-use.html">Terms of Use</a></li>
           <li><a href="mailto:contact@uthings.io">Contact Us</a></li>
         </ul>
       </div>

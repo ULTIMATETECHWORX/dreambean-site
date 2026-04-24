@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — DreamBean</title>
+  <link rel="icon" href="/assets/dreambean-castle.svg" type="image/svg+xml" />
+  <link rel="shortcut icon" href="/assets/dreambean-castle.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/dreambean-castle.svg" />
+  <link rel="mask-icon" href="/assets/dreambean-castle.svg" color="#FFB830" />
   <style>
     *,
     *::before,
@@ -45,9 +49,19 @@
 
     .nav-logo {
       color: var(--amber);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
       font-weight: 800;
       font-size: 1.1rem;
       text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      flex: 0 0 auto;
     }
 
     .nav-back {
@@ -198,7 +212,10 @@
 <body>
 
   <nav>
-    <a href="/" class="nav-logo">&#10022; DreamBean</a>
+    <a href="/" class="nav-logo">
+      <img src="/assets/dreambean-castle.svg" alt="" class="nav-logo-icon" width="30" height="30">
+      <span>Dreambean</span>
+    </a>
     <a href="/" class="nav-back">&larr; Back to Home</a>
   </nav>
 
@@ -3998,6 +4015,11 @@
                                                               a,
                                                               [data-custom-class="link"],
                                                               [data-custom-class="link"] * {
+                                                                color: #FFB830 !important;
+                                                              }
+
+                                                              .nav-logo,
+                                                              .nav-logo span {
                                                                 color: #FFB830 !important;
                                                               }
 
