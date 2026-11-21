@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us — DreamBean</title>
+  <title>Contact Us — Dreamavera</title>
+  <meta name="description" content="Contact the Dreamavera team at Ultimate Techworx LLC for app support, questions, or feedback." />
   <link rel="icon" href="assets/dreambean-castle.svg" type="image/svg+xml" />
   <link rel="shortcut icon" href="assets/dreambean-castle.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/dreambean-castle.svg" />
@@ -205,15 +206,16 @@
       .form-card { padding: 24px 20px; }
     }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="document-page">
 
 <nav>
   <a href="index.html" class="nav-logo">
     <img src="assets/dreambean-castle.svg" alt="" class="nav-logo-icon" width="30" height="30">
-    <span>DreamBean</span>
+    <span>Dreamavera</span>
   </a>
-  <a href="index.html" class="nav-back">← Back to Home</a>
+  <a href="index.html" class="nav-back">Back to Home</a>
 </nav>
 
 <div class="page">
@@ -304,7 +306,7 @@
 
     if (!valid) return;
 
-    const subject = encodeURIComponent('DreamBean — Contact Us');
+    const subject = encodeURIComponent('Dreamavera — Contact Us');
     const bodyLines = [];
     if (name) bodyLines.push(`From: ${name}`);
     bodyLines.push(`Reply-to: ${email}`, '', message);
