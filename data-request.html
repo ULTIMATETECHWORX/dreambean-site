@@ -272,7 +272,7 @@
 
   <div class="info-box">
     <strong>Your rights:</strong> You may request access to, correction of, deletion of, or a portable export of your personal data at any time.
-    We will respond to your request within <strong>30 days</strong>. For account deletion, all your data is permanently removed from our systems.
+    We review requests in accordance with applicable privacy law and may need to verify your identity. Account deletion and any required retention are explained in our <a href="privacy-policy.html">Privacy Policy</a>. This form prepares an email; send it from your email app to submit your request.
   </div>
 
   <!-- Form -->
@@ -328,16 +328,16 @@
         <textarea id="details" name="details" placeholder="Any specific information to help us process your request..."></textarea>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Prepare Request Email</button>
 
     </form>
   </div>
 
   <!-- Success -->
-  <div class="success-card" id="successCard">
+  <div class="success-card" id="successCard" role="status" aria-live="polite">
     <div class="success-icon">✦</div>
-    <h2>Request received</h2>
-    <p>We've sent a confirmation to your email address.<br>We'll respond within 30 days.</p>
+    <h2>Your request email is ready</h2>
+    <p>Send the draft from your email app to submit your request. This website has not sent the request or a confirmation email. If no draft opens, email <a href="mailto:contact@uthings.io">contact@uthings.io</a> directly.</p>
   </div>
 
   <p class="note">Questions? Contact us at <a href="mailto:contact@uthings.io" style="color:var(--mist)">contact@uthings.io</a></p>
@@ -382,9 +382,8 @@
     // Open user's email client with pre-filled request
     window.location.href = `mailto:contact@uthings.io?subject=${subject}&body=${body}`;
 
-    // Show success card
+    // Preparing a mailto draft does not send or confirm a privacy request.
     setTimeout(() => {
-      document.getElementById('formCard').style.display = 'none';
       document.getElementById('successCard').style.display = 'block';
     }, 500);
   });

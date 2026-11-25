@@ -45,6 +45,12 @@ const paths = {
     idea: 'A cheerful Moon robot, a baking experiment, and muffins that will not stop bouncing.',
   },
 };
+for (const link of document.querySelectorAll('a[href="#language-faq"]')) {
+  link.addEventListener('click', () => {
+    document.getElementById('language-faq')?.setAttribute('open', '');
+  });
+}
+
 const tabs = [...document.querySelectorAll('.path-tab')];
 function selectPath(tab, moveFocus = false) {
   const path = paths[tab.dataset.path];
